@@ -12,5 +12,11 @@
 </template>
 
 <script setup lang="ts">
+import Event from "~/models/Event";
+
+const props = defineProps<{
+    events?: [Event]
+}>();
+
 
 </script>

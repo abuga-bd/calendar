@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-rose-600 py-4 px-6 rounded-md text-gray-50">
+    <div class="bg-cyan-600 py-4 px-6 rounded-md text-gray-50">
         <div class="flex justify-between">
             <div>
                 {{ props.dayName }} - {{ props.day }} {{ props.monthName }}
@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import Event from "~/models/Event";
 import { defineProps } from '@vue/runtime-dom';
 
 const props = defineProps<{
@@ -26,6 +27,7 @@ const props = defineProps<{
     monthName: string,
     time: string,
     title: string,
-    description: string
+    description: string,
+    event?: Event
 }>();
 </script>

@@ -29,6 +29,7 @@ export default class Calendar {
                     day: this.days[date.dayOfWeek - 1],
                     date: date.day,
                     month: date.month,
+                    year: date.year,
                     currentMonth: month || this.month === date.month,
                     currentDay: (month || this.month === date.month) && this.day === date.day
                 })
@@ -47,6 +48,7 @@ export default class Calendar {
                     day: this.days[date.dayOfWeek - 1],
                     date: date.day,
                     month: date.month,
+                    year: date.year,
                     currentMonth: month || this.month === date.month,
                     currentDay:
                         (month || this.month === date.month) &&
