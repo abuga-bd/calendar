@@ -64,16 +64,16 @@ export default {
       callback: '/callback',
     },
     strategies: {
-      // local: false,
-      // auth0: {
-      //   logoutRedirectUri: 'http://localhost:3000/',
-      //   domain: "dev-6xt88t3o.us.auth0.com",
-      //   clientId: "uDJuNWsShdrC2u3y15Rb4qikmm618jn3",
-      //   scope: ['openid', 'profile', 'email', 'offline_access'],
-      //   responseType: 'token',
-      //   grantType: 'authorization_code',
-      //   codeChallengeMethod: 'S256',
-      // },
+      local: false,
+      auth0: {
+        logoutRedirectUri: 'http://localhost:3000/',
+        domain: "dev-6xt88t3o.us.auth0.com",
+        clientId: "uDJuNWsShdrC2u3y15Rb4qikmm618jn3",
+        scope: ['openid', 'profile', 'email', 'offline_access'],
+        responseType: 'token',
+        grantType: 'authorization_code',
+        codeChallengeMethod: 'S256',
+      },
       openIDConnect: {
         scheme: 'openIDConnect',
         clientId: 'uDJuNWsShdrC2u3y15Rb4qikmm618jn3',
@@ -94,5 +94,7 @@ export default {
     }
   },
 
-  serverMiddleware: ['@/server-middleware/auth']
+  serverMiddleware: [
+    { path: "/api", handler: "@/server-middleware/api/index"}
+  ]
 }

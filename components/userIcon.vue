@@ -26,7 +26,7 @@ const store = useStore();
 const { loggedIn, user } = store.$auth;
 
 const logIn = () => {
-    store.$auth.loginWith('openIDConnect')
+    store.$auth.loginWith('auth0')
 };
 
 const logOut = () => {
