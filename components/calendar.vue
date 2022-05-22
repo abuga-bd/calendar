@@ -25,15 +25,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, Ref } from "@nuxtjs/composition-api";
+import { reactive } from "@nuxtjs/composition-api";
 import Calendar from "~/classes/Calendar";
 import DayEvents from "~/models/DayEvents";
 import Event from "~/models/Event";
-import { defineProps, Events } from '@vue/runtime-dom';
+import { defineProps, defineEmits } from '@vue/runtime-dom';
 import colors from "~/classes/Colors";
 import Reactive from "~/classes/Reactive";
 import { Temporal } from "@js-temporal/polyfill";
-import { CompatSource } from "webpack-sources";
 
 const props = defineProps<{
     dayEvents: Reactive<Array<DayEvents>>
@@ -43,12 +42,30 @@ const { dayEvents } = props
 
 const calendar: Calendar = reactive(new Calendar());
 
+const emit = defineEmits(['update']);
+
 const leftArrow = () => {
     calendar.substractMonth();
+    const days = calendar.getDaysOfMonth();
+    const firstDayMonth = days[0];
+    const lastDayMonth = days[days.length - 1];
+
+    emit("update", {
+        startDate: new Date(firstDayMonth.year, firstDayMonth.month - 1, firstDayMonth.date).toISOString(),
+        endDate: new Date(lastDayMonth.year, lastDayMonth.month - 1, lastDayMonth.date).toISOString()
+    });
 };
 
 const rightArrow = () => {
     calendar.addMonth();
+    const days = calendar.getDaysOfMonth();
+    const firstDayMonth = days[0];
+    const lastDayMonth = days[days.length - 1];
+
+    emit("update", {
+        startDate: new Date(firstDayMonth.year, firstDayMonth.month - 1, firstDayMonth.date).toISOString(),
+        endDate: new Date(lastDayMonth.year, lastDayMonth.month - 1, lastDayMonth.date).toISOString()
+    });
 }
 
 const getStyle = (day: any, cellType: 'div' | 'span'): string => {
@@ -63,7 +80,7 @@ const getStyle = (day: any, cellType: 'div' | 'span'): string => {
 
     if (!currentDay && cellType === 'span') return `${!day.currentMonth && 'text-gray-400'} ${day.currentDay && 'rounded-full bg-gray-200'}`;
     if (!currentDay) return '';
-    
+
     const event: Event = currentDay?.events[0];
 
     let style: string = "";
@@ -94,8 +111,6 @@ const getStyle = (day: any, cellType: 'div' | 'span'): string => {
 
     const hasNext = event.hasNext;
     const hasBefore = date.since(startDate).hours >= 24;
-
-    console.log(hasBefore, hasNext, day.date);
 
     switch (cellType) {
         case 'div':
