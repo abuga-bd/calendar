@@ -34,9 +34,6 @@ const logOut = () => {
 }
 
 const toggleOpen = () => {
-    console.log((<any>store.$auth.strategy).token.get())
-    console.log((<any>store.$auth.strategy).refreshToken.get())
-    console.log(user)
     open.value = !open.value;
 }
 

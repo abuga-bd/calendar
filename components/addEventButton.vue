@@ -46,7 +46,7 @@ const event = reactive({ title: '', description: '', startDate: null, endDate: n
 const open = reactive({value: false})
 
 const toggleOpen = () => {
-    open.value = !open.value 
+    open.value = !open.value
 }
 
 const handleAddEvent = () => {

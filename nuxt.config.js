@@ -64,31 +64,14 @@ export default {
       callback: '/callback',
     },
     strategies: {
-      local: false,
       auth0: {
         logoutRedirectUri: 'http://localhost:3000/',
         domain: "dev-6xt88t3o.us.auth0.com",
         clientId: "uDJuNWsShdrC2u3y15Rb4qikmm618jn3",
+        audience: 'https://localhost:7474/api',
         scope: ['openid', 'profile', 'email', 'offline_access'],
-        responseType: 'token',
-        grantType: 'authorization_code',
-        codeChallengeMethod: 'S256',
-      },
-      openIDConnect: {
-        scheme: 'openIDConnect',
-        clientId: 'uDJuNWsShdrC2u3y15Rb4qikmm618jn3',
-        endpoints: {
-          configuration: 'https://accounts.google.com/.well-known/openid-configuration',
-        },
-        idToken: {
-          property: 'id_token',
-          maxAge: 60 * 60 * 24 * 30,
-          prefix: '_id_token.',
-          expirationPrefix: '_id_token_expiration.'
-        },
         responseType: 'code',
         grantType: 'authorization_code',
-        scope: ['openid', 'profile', 'offline_access'],
         codeChallengeMethod: 'S256',
       }
     }
