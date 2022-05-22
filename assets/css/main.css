@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    #__nuxt {
+        @apply bg-gradient-to-b;
+        @apply from-slate-400;
+        @apply via-gray-300;
+        @apply to-gray-200;
+    }
+}
