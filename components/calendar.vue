@@ -38,7 +38,11 @@ const props = defineProps<{
     dayEvents: Reactive<Array<DayEvents>>
 }>();
 
+
+
 const { dayEvents } = props
+
+console.log(props, props.dayEvents, props.dayEvents.value)
 
 const calendar: Calendar = reactive(new Calendar());
 

@@ -42,14 +42,15 @@ const props = defineProps<{
 }>();
 
 const computeTime = (date: any) => {
-    let hours;
+    
+    let hours = date.hour;
     let amOrPm = "AM";
     const minutes = ("0" + date.minute).slice(-2);
 
     if (date.hour > 12) {
         hours = date.hour - 12;
         amOrPm = "PM";
-    }
+    } 
 
     hours = ("0" + hours).slice(-2);
 
