@@ -42,8 +42,6 @@ const props = defineProps<{
 
 const { dayEvents } = props
 
-console.log(props, props.dayEvents, props.dayEvents.value)
-
 const calendar: Calendar = reactive(new Calendar());
 
 const emit = defineEmits(['update']);

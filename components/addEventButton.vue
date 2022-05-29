@@ -53,7 +53,7 @@ import axios from "axios";
 const emit = defineEmits(['updateEvents']);
 const date = new Date().toISOString().split(".")[0];
 const store = useStore()
-const event = reactive({ title: '', description: '', startDate: date.substring(0, date.length - 3), endDate: date.substring(0, date.length - 3) })
+const event = reactive({ title: '', description: '', startDate: date.substring(0, date.length - 3), endDate: date.substring(0, date.length - 3), colorIndex: 1 })
 const open = reactive({ value: false })
 
 const toggleOpen = () => {
@@ -69,7 +69,14 @@ const handleAddEvent = () => {
 
 const formSubmit = () => {
     emit("updateEvents", event);
-    axios.post("/api/v1/CalendarItemsMoldels", event)
+    const d: any = event
+    d.startDate = new Date(d.startDate)
+    d.endDate = new Date(d.endDate)
+    axios.post("https://localhost:7272/external/api/v1/CalendarItemModels", d, {
+        headers: {
+            Authorization: `${(<any>store.$auth.strategy).token.get()}`
+        }
+    })
     toggleOpen()
 }
 

@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import Event from "~/models/Event";
-import { defineProps } from '@vue/runtime-dom';
-import CardEvent from "~/models/CardEvent";
 import { Temporal } from "@js-temporal/polyfill";
+import { defineProps } from '@vue/runtime-dom';
+import Event from "~/models/Event";
+import CardEvent from "~/models/CardEvent";
 import colors from "~/classes/Colors";
 
 let cardEvent: CardEvent;

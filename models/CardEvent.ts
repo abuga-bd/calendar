@@ -9,4 +9,4 @@ export default interface CardEvent{
     title: string;
     description: string;
     color: string;
-};
+}

@@ -1,16 +1,16 @@
 <template>
-  <div class="container font-roboto grid content-center min-h-screen">
+  <div class="container font-roboto grid content-center min-h-screen" >
     <div class="bg-white rounded-xl shadow-lg py-8 px-10 ">
       <div class="flex justify-between">
         <h1 class="font-bold text-3xl">Event Calendar</h1>
         <UserIcon />
       </div>
-      <div class="grid grid-cols-12 mt-12">
-        <Calendar @update="inputUpdated" :dayEvents="dayEvents" class="col-span-8" />
+      <div class="grid grid-cols-12 mt-12" >
+        <Calendar :day-events="dayEvents" class="col-span-8" @update="inputUpdated" />
         <Events :events="cardEvents" class="col-span-4" />
       </div>
-      <div class="flex justify-end mt-5">
-        <AddEventButton @updateEvents="inputUpdatedEvents" :dayEvents="dayEvents" />
+      <div class="flex justify-end mt-5" v-if="store.$auth.loggedIn">
+        <AddEventButton :day-events="dayEvents" @updateEvents="inputUpdatedEvents" />
       </div>
     </div>
   </div>
@@ -19,9 +19,9 @@
 <script setup lang="ts">
 import { onMounted, reactive, useStore } from "@nuxtjs/composition-api";
 import axios from "axios";
+import { Temporal } from "@js-temporal/polyfill";
 import DayEvents from "~/models/DayEvents";
 import Reactive from "@/classes/Reactive";
-import { Temporal } from "@js-temporal/polyfill";
 import Event from "~/models/Event";
 
 const store = useStore()
@@ -33,7 +33,13 @@ let eventsAdded: number = 0;
 const dayEvents: Reactive<Array<DayEvents>> = reactive(new Reactive(new Array<DayEvents>()))
 
 onMounted(async () => {
-  const data = (await axios.get("/api/getJSON")).data;
+  if (!store.$auth.loggedIn)
+    return
+  const data = (await axios.get("https://localhost:7272/external/api/v1/CalendarItemModels", {
+    headers: {
+      Authorization: `${(<any>store.$auth.strategy).token.get()}`
+    }
+  })).data;
   dayEvents.value = data;
   dayEvents.value.forEach(day => day.events.sort((a, b) => a.priority - b.priority));
   index = dayEvents.value.length;
@@ -41,7 +47,17 @@ onMounted(async () => {
 })
 
 const inputUpdated = async (value: { startDate: string, endDate: string }) => {
-  const data = (await axios.get("/api/getJSON")).data;
+  if (!store.$auth.loggedIn)
+    return
+  const data = (await axios.get("https://localhost:7272/external/api/v1/CalendarItemModels", {
+    params: { 
+      startDate: value.startDate,
+      endDate: value.endDate 
+    },
+    headers: {
+      Authorization: `${(<any>store.$auth.strategy).token.get()}`
+    }
+  })).data;
   dayEvents.value = data;
   dayEvents.value.forEach(day => day.events.sort((a, b) => a.priority - b.priority));
 }
@@ -52,7 +68,6 @@ const inputUpdatedEvents = async (value: {
   startDate: string,
   endDate: string,
 }) => {
-  console.log(value)
   const _startDate = new Date(value.startDate);
   const _endDate = new Date(value.endDate);
 
@@ -87,7 +102,7 @@ const inputUpdatedEvents = async (value: {
             startDate: value.startDate,
             endDate: value.endDate,
             hasNext: endDate.since(startDate).hours >= 24,
-            priority: priority,
+            priority,
             colorIndex: index % 4
           }
         ]
